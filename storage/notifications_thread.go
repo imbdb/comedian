@@ -9,8 +9,8 @@ import (
 // CreateNotificationThread create notifications
 func (m *DB) CreateNotificationThread(s model.NotificationThread) (model.NotificationThread, error) {
 	res, err := m.db.Exec(
-		"INSERT INTO `notifications_thread` (chat_id, username, notification_time, reminder_counter) VALUES (?, ?, ?, ?)",
-		s.ChatID, s.Username, s.NotificationTime, s.ReminderCounter,
+		"INSERT INTO `notifications_thread` (channel_id, real_name, notification_time, reminder_counter) VALUES (?, ?, ?, ?)",
+		s.ChannelID, s.RealName, s.NotificationTime, s.ReminderCounter,
 	)
 	if err != nil {
 		return s, err
@@ -30,14 +30,14 @@ func (m *DB) DeleteNotificationThread(id int64) error {
 }
 
 // ListNotificationsThread returns array of notifications entries from database
-func (m *DB) ListNotificationsThread(chatID int64) ([]model.NotificationThread, error) {
+func (m *DB) ListNotificationsThread(channelID string) ([]model.NotificationThread, error) {
 	items := []model.NotificationThread{}
-	err := m.db.Select(&items, "SELECT * FROM `notifications_thread` WHERE chat_id= ?", chatID)
+	err := m.db.Select(&items, "SELECT * FROM `notifications_thread` WHERE channel_id= ?", channelID)
 	return items, err
 }
 
 // UpdateNotificationThread update field reminder counter
-func (m *DB) UpdateNotificationThread(id int64, chatID int64, t time.Time) error {
-	_, err := m.db.Exec("UPDATE `notifications_thread` SET reminder_counter=reminder_counter+1, notification_time=? WHERE id=? AND chat_id=?", t, id, chatID)
+func (m *DB) UpdateNotificationThread(id int64, channelID string, t time.Time) error {
+	_, err := m.db.Exec("UPDATE `notifications_thread` SET reminder_counter=reminder_counter+1, notification_time=? WHERE id=? AND channel_id=?", t, id, channelID)
 	return err
 }

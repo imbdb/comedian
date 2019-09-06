@@ -100,8 +100,8 @@ type AttachmentItem struct {
 // NotificationThread ...
 type NotificationThread struct {
 	ID               int64     `db:"id" json:"id"`
-	ChatID           int64     `db:"chat_id" json:"chat_id"`
-	Username         string    `db:"username" json:"username"`
+	ChannelID        string    `db:"channel_id" json:"channel_id"`
+	RealName         string    `db:"real_name" json:"real_name"`
 	NotificationTime time.Time `db:"notification_time" json:"notification_time"`
 	ReminderCounter  int       `db:"reminder_counter" json:"reminder_counter"`
 }
@@ -209,11 +209,11 @@ func (s Standuper) Validate() error {
 
 // Validate validates NotificationsThread struct
 func (nt NotificationThread) Validate() error {
-	if nt.ChatID == 0 {
-		return errors.New("Field ChatID is empty")
+	if strings.TrimSpace(nt.ChannelID) == "" {
+		return errors.New("Field ChannelID is empty")
 	}
-	if strings.TrimSpace(nt.Username) == "" {
-		return errors.New("Field Username is empty")
+	if strings.TrimSpace(nt.RealName) == "" {
+		return errors.New("Field RealName is empty")
 	}
 	if strings.TrimSpace(nt.NotificationTime.String()) == "" {
 		return errors.New("Field NotificationTime is empty")

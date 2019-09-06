@@ -12,8 +12,8 @@ import (
 func TestNotification(t *testing.T) {
 	var db = setupDB()
 	n := model.NotificationThread{
-		ChatID:           int64(1),
-		Username:         "User1",
+		ChannelID:        "1",
+		RealName:         "User1",
 		NotificationTime: time.Now(),
 		ReminderCounter:  0,
 	}
@@ -22,15 +22,15 @@ func TestNotification(t *testing.T) {
 
 	notification, err := db.CreateNotificationThread(n)
 	require.NoError(t, err)
-	assert.Equal(t, int64(1), notification.ChatID)
-	assert.Equal(t, "User1", notification.Username)
+	assert.Equal(t, "1", notification.ChannelID)
+	assert.Equal(t, "User1", notification.RealName)
 	assert.Equal(t, timeTest, notification.NotificationTime)
 	assert.Equal(t, 0, notification.ReminderCounter)
 
 	notification2, err := db.CreateNotificationThread(n)
 	require.NoError(t, err)
 
-	notifications, err := db.ListNotificationsThread(notification2.ChatID)
+	notifications, err := db.ListNotificationsThread(notification2.ChannelID)
 	require.NoError(t, err)
 	assert.Equal(t, 2, len(notifications))
 
@@ -40,13 +40,13 @@ func TestNotification(t *testing.T) {
 	err = db.DeleteNotificationThread(notification.ID)
 	require.NoError(t, err)
 
-	notifications, err = db.ListNotificationsThread(notification2.ChatID)
+	notifications, err = db.ListNotificationsThread(notification2.ChannelID)
 	require.NoError(t, err)
 	assert.Equal(t, 0, len(notifications))
 
 	n = model.NotificationThread{
-		ChatID:           int64(1),
-		Username:         "User2",
+		ChannelID:        "1",
+		RealName:         "User2",
 		NotificationTime: time.Now(),
 		ReminderCounter:  0,
 	}
@@ -54,10 +54,10 @@ func TestNotification(t *testing.T) {
 	nt, err := db.CreateNotificationThread(n)
 	require.NoError(t, err)
 
-	err = db.UpdateNotificationThread(nt.ID, nt.ChatID, time.Now())
+	err = db.UpdateNotificationThread(nt.ID, nt.ChannelID, time.Now())
 	require.NoError(t, err)
 
-	notifications, err = db.ListNotificationsThread(nt.ChatID)
+	notifications, err = db.ListNotificationsThread(nt.ChannelID)
 	require.NoError(t, err)
 	for _, thread := range notifications {
 		assert.Equal(t, 1, thread.ReminderCounter)

@@ -2,8 +2,8 @@
 -- +goose StatementBegin
 CREATE TABLE `notifications_thread` (
     `id` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `chat_id` BIGINT NOT NULL,
-    `username` VARCHAR(255) NOT NULL,
+    `channel_id` VARCHAR(255) NOT NULL,
+    `real_name` VARCHAR(255) NOT NULL,
     `notification_time` DATETIME NOT NULL,
     `reminder_counter` INTEGER NOT NULL
 );
