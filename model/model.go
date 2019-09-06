@@ -99,11 +99,11 @@ type AttachmentItem struct {
 
 // NotificationThread ...
 type NotificationThread struct {
-	ID               int64     `db:"id" json:"id"`
-	ChannelID        string    `db:"channel_id" json:"channel_id"`
-	RealName         string    `db:"real_name" json:"real_name"`
-	NotificationTime time.Time `db:"notification_time" json:"notification_time"`
-	ReminderCounter  int       `db:"reminder_counter" json:"reminder_counter"`
+	ID               int64  `db:"id" json:"id"`
+	ChannelID        string `db:"channel_id" json:"channel_id"`
+	RealName         string `db:"real_name" json:"real_name"`
+	NotificationTime int64  `db:"notification_time" json:"notification_time"`
+	ReminderCounter  int    `db:"reminder_counter" json:"reminder_counter"`
 }
 
 // Validate validates Standup struct
@@ -215,8 +215,8 @@ func (nt NotificationThread) Validate() error {
 	if strings.TrimSpace(nt.RealName) == "" {
 		return errors.New("Field RealName is empty")
 	}
-	if strings.TrimSpace(nt.NotificationTime.String()) == "" {
-		return errors.New("Field NotificationTime is empty")
+	if nt.NotificationTime < 0 {
+		return errors.New("Field NotificationTime cannot be negative")
 	}
 	if nt.ReminderCounter < 0 {
 		return errors.New("Field ReminderCounter cannot be negative")

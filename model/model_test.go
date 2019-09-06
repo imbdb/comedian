@@ -3,7 +3,6 @@ package model
 import (
 	"errors"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -129,14 +128,15 @@ func TestNotificationThread(t *testing.T) {
 	testCases := []struct {
 		channelid        string
 		realname         string
-		notificationTime time.Time
+		notificationTime int64
 		reminderCounter  int
 		errorMessage     string
 	}{
-		{"", "User1", time.Now(), 0, "Field ChannelID is empty"},
-		{"12", "", time.Now(), 0, "Field RealName is empty"},
-		{"12", "User1", time.Now(), -1, "Field ReminderCounter cannot be negative"},
-		{"12", "User1", time.Now(), 1, ""},
+		{"", "User1", int64(2), 0, "Field ChannelID is empty"},
+		{"12", "", int64(2), 0, "Field RealName is empty"},
+		{"12", "User1", int64(-1), -1, "Field NotificationTime cannot be negative"},
+		{"12", "User1", int64(2), -1, "Field ReminderCounter cannot be negative"},
+		{"12", "User1", int64(2), 1, ""},
 	}
 	for _, e := range testCases {
 		nt := NotificationThread{
