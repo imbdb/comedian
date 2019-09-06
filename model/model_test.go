@@ -135,7 +135,7 @@ func TestNotificationThread(t *testing.T) {
 	}{
 		{"", "User1", time.Now(), 0, "Field ChannelID is empty"},
 		{"12", "", time.Now(), 0, "Field RealName is empty"},
-		{"12", "User1", time.Now(), -1, "Field ReminderCounter is empty"},
+		{"12", "User1", time.Now(), -1, "Field ReminderCounter cannot be negative"},
 		{"12", "User1", time.Now(), 1, ""},
 	}
 	for _, e := range testCases {

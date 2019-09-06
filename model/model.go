@@ -219,7 +219,7 @@ func (nt NotificationThread) Validate() error {
 		return errors.New("Field NotificationTime is empty")
 	}
 	if nt.ReminderCounter < 0 {
-		return errors.New("Field ReminderCounter is empty")
+		return errors.New("Field ReminderCounter cannot be negative")
 	}
 	return nil
 }
