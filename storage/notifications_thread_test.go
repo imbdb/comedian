@@ -10,7 +10,6 @@ import (
 )
 
 func TestNotification(t *testing.T) {
-	var db = setupDB()
 	n := model.NotificationThread{
 		ChannelID:        "1",
 		RealName:         "User1",
