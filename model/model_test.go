@@ -3,6 +3,7 @@ package model
 import (
 	"errors"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -120,6 +121,33 @@ func TestStanduper(t *testing.T) {
 		err := bs.Validate()
 		if err != nil {
 			assert.Equal(t, errors.New(tt.errorMessage), err)
+		}
+	}
+}
+
+func TestNotificationThread(t *testing.T) {
+	testCases := []struct {
+		chatID           int64
+		username         string
+		notificationTime time.Time
+		reminderCounter  int
+		errorMessage     string
+	}{
+		{int64(0), "User1", time.Now(), 0, "Field ChatID is empty"},
+		{int64(1), "", time.Now(), 0, "Field Username is empty"},
+		{int64(1), "User1", time.Now(), -1, "Field ReminderCounter is empty"},
+		{int64(1), "User1", time.Now(), 1, ""},
+	}
+	for _, e := range testCases {
+		nt := NotificationThread{
+			ChatID:           e.chatID,
+			Username:         e.username,
+			NotificationTime: e.notificationTime,
+			ReminderCounter:  e.reminderCounter,
+		}
+		err := nt.Validate()
+		if err != nil {
+			assert.Equal(t, errors.New(e.errorMessage), err)
 		}
 	}
 }
