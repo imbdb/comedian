@@ -3,6 +3,7 @@
 CREATE TABLE `notifications_thread` (
     `id` INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
     `channel_id` VARCHAR(255) NOT NULL,
+    `user_id` VARCHAR(255) NOT NULL,
     `real_name` VARCHAR(255) NOT NULL,
     `notification_time` INTEGER NOT NULL,
     `reminder_counter` INTEGER NOT NULL

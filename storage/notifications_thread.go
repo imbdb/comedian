@@ -9,8 +9,8 @@ import (
 // CreateNotificationThread create notifications
 func (m *DB) CreateNotificationThread(s model.NotificationThread) (model.NotificationThread, error) {
 	res, err := m.db.Exec(
-		"INSERT INTO `notifications_thread` (channel_id, real_name, notification_time, reminder_counter) VALUES (?, ?, ?, ?)",
-		s.ChannelID, s.RealName, s.NotificationTime, s.ReminderCounter,
+		"INSERT INTO `notifications_thread` (channel_id,user_id, real_name, notification_time, reminder_counter) VALUES (?, ?, ?, ?, ?)",
+		s.ChannelID, s.UserID, s.RealName, s.NotificationTime, s.ReminderCounter,
 	)
 	if err != nil {
 		return s, err

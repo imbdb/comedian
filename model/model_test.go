@@ -127,20 +127,23 @@ func TestStanduper(t *testing.T) {
 func TestNotificationThread(t *testing.T) {
 	testCases := []struct {
 		channelid        string
+		userid           string
 		realname         string
 		notificationTime int64
 		reminderCounter  int
 		errorMessage     string
 	}{
-		{"", "User1", int64(2), 0, "Field ChannelID is empty"},
-		{"12", "", int64(2), 0, "Field RealName is empty"},
-		{"12", "User1", int64(-1), -1, "Field NotificationTime cannot be negative"},
-		{"12", "User1", int64(2), -1, "Field ReminderCounter cannot be negative"},
-		{"12", "User1", int64(2), 1, ""},
+		{"", "1", "User1", int64(2), 0, "Field ChannelID is empty"},
+		{"12", "", "User1", int64(2), 0, "Field UserID is empty"},
+		{"12", "1", "", int64(2), 0, "Field RealName is empty"},
+		{"12", "1", "User1", -1, -1, "Field NotificationTime cannot be negative"},
+		{"12", "1", "User1", int64(2), -1, "Field ReminderCounter cannot be negative"},
+		{"12", "1", "User1", int64(2), 1, ""},
 	}
 	for _, e := range testCases {
 		nt := NotificationThread{
 			ChannelID:        e.channelid,
+			UserID:           e.userid,
 			RealName:         e.realname,
 			NotificationTime: e.notificationTime,
 			ReminderCounter:  e.reminderCounter,
